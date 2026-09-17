@@ -9,6 +9,8 @@ services:
       - 8080:8080
     volumes:
       - ./frontend/app:/app
+    working_dir: /app/my-app
+    command: npm run serve -- --host 0.0.0.0 --port 8080
     tty: true
     environment:
       - NODE_ENV=development

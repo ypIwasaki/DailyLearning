@@ -14,3 +14,4 @@ services:
     tty: true
     environment:
       - NODE_ENV=development
+    user: "1000:1000"

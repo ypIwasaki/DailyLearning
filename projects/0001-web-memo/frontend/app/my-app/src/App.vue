@@ -1,8 +1,8 @@
 <template>
   <Header/>
   <main>
-    <Edit @saved="refreshMemos"/>
-    <List ref="memoList"/>
+    <Edit ref="memoEditor" @saved="refreshMemos"/>
+    <List ref="memoList" @edit="editMemo"/>
   </main>
 </template>
 
@@ -17,6 +17,9 @@ export default {
   methods: {
     async refreshMemos() {
       await this.$refs.memoList.loadMemos()
+    },
+    async editMemo(id) {
+      await this.$refs.memoEditor.loadMemo(id)
     }
   },
   components: {

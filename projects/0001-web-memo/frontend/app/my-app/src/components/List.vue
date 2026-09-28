@@ -9,6 +9,7 @@
           <button
             type="button"
             :aria-label="memo.title + 'を編集'"
+            @click="$emit('edit', memo.id)"
           >
             編集
           </button>
@@ -45,6 +46,7 @@ button:hover { background: #e7eff8; }
 import { db } from '../DB/database.js'
 export default {
   name: 'MemoList',
+  emits: ['edit'],
   data() {
     return {
       memos: []

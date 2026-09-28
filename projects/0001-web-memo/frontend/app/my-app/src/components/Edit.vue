@@ -25,6 +25,13 @@
         >
           メモを保存
         </button>
+        <button
+          type="button"
+          class="save-button"
+          @click="startNewMemo"
+          >
+            新規作成
+        </button>
     </div>
   </section>
 </template>
@@ -54,7 +61,8 @@ export default {
   data() {
     return {
       title: '',
-      content: ''
+      content: '',
+      selectedMemoId: null
     }
   },
   methods: {
@@ -67,18 +75,61 @@ export default {
       const now = new Date()
       
       try {
-        await db.memos.add({
-          title: this.title,
-          content: this.content,
-          createdAt: now,
-          updatedAt: now
-        })
+        if (this.selectedMemoId === null) {
+          this.selectedMemoId = await db.memos.add({
+            title: this.title,
+            content: this.content,
+            createdAt: now,
+            updatedAt: now
+          })
+        } else {
+          const updateCount = await db.memos.update(
+            this.selectedMemoId,
+            {
+              title: this.title,
+              content: this.content,
+              updatedAt: now
+            }
+          )
+
+          if (updateCount === 0) {
+            alert('更新するメモが見つかりません')
+            return
+          }
+        }
+
         this.$emit('saved')
+        const savedMemo = await db.memos.get(this.selectedMemoId)
+        console.log('DBから読み直したメモ:', savedMemo)
         alert('メモを保存しました')
       } catch (error) {
         console.error('メモの保存に失敗しました', error)
         alert('メモを保存できませんでした')
       }
+    },
+    async loadMemo(id) {
+      if (this.selectedMemoId === id) return
+
+      try {
+        const memo = await db.memos.get(id)
+
+        if (!memo) {
+          alert('メモが見つかりません')
+          return
+        }
+
+        this.selectedMemoId = memo.id
+        this.title = memo.title
+        this.content = memo.content
+      }catch (error) {
+        console.error('メモの取得に失敗しました', error)
+        alert('メモを読み込めませんでした')
+      }
+    },
+    startNewMemo() {
+      this.selectedMemoId = null
+      this.title = ''
+      this.content = ''
     }
   }
 }

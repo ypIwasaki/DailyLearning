@@ -17,6 +17,7 @@
             type="button"
             class="delete-button"
             :aria-label="memo.title + 'を削除'"
+            @click="confirmDelete(memo)"
             >
               削除
           </button>
@@ -62,6 +63,21 @@ export default {
         console.log(this.memos)
       } catch (error) {
         console.error('メモの取得に失敗しました', error)
+      }
+    },
+    async confirmDelete(memo) {
+      const confirmed = window.confirm(
+        '「${memo.title}」を削除しますか？'
+      )
+
+      if (!confirmed) return
+
+      try {
+        await db.memos.delete(memo.id)
+        await this.loadMemos()
+      } catch (error) {
+        console.error('メモの削除に失敗しました',error)
+        alert('メモを削除できませんでした')
       }
     }
   }

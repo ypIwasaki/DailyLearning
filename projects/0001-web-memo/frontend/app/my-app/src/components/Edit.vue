@@ -3,14 +3,28 @@
     <h2 id="editor-heading">メモの編集</h2>
     <!-- 入力と保存の処理は、Vueの学習で追加します。 -->
     <div class="field">
-      <input v-model="title" aria-label="タイトル" placeholder="例：今日の学習メモ">
+      <input
+        v-model="title"
+        aria-label="タイトル"
+        placeholder="例：今日の学習メモ">
     </div>
     <div class="field">
       <label for="memo-body">本文</label>
-      <textarea id="memo-body" rows="8" placeholder="メモしたいことを入力してください"></textarea>
+      <textarea
+        id="memo-body"
+        v-model="content"
+        rows="8"
+        placeholder="メモしたいことを入力してください"
+      ></textarea>
     </div>
     <div class="editor-actions">
-      <button type="button" class="save-button">メモを保存</button>
+      <button
+        type="button"
+        class="save-button"
+        @click="saveMemo"
+        >
+          メモを保存
+        </button>
     </div>
   </section>
 </template>
@@ -34,5 +48,38 @@ textarea { resize: vertical; min-height: 160px; line-height: 1.7; }
 .save-button:hover { background: #1c4b7e; }
 </style>
 <script>
-export default { name: 'MemoEditor' }
+export default {
+  name: 'MemoEditor',
+  data() {
+    return {
+      title: '',
+      content: ''
+    }
+  },
+  methods: {
+    async saveMemo() {
+      if (!this.title.trim() || !this.content.trim()) {
+        alert('タイトルと本文を入力してください')
+        return
+      }
+
+      const now = new Date()
+      
+      try {
+        await db.memos.add({
+          title: this.title,
+          content: this.content,
+          createdAt: now,
+          updatedAt: now
+        })
+
+        alert('メモを保存しました')
+      } catch (error) {
+        console.error('メモの保存に失敗しました', error)
+        alert('メモを保存できませんでした')
+      }
+    }
+  }
+}
+import { db } from '../DB/database.js'
 </script>

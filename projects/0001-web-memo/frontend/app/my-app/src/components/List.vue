@@ -3,25 +3,22 @@
     <h2 id="list-heading">保存したメモ</h2>
     <!-- 固定のサンプルです。一覧表示・編集・削除の処理は後から追加します。 -->
     <ul>
-      <li>
-        <span class="memo-title">今日の学習メモ</span>
+      <li v-for="memo in memos" :key="memo.id">
+        <span class="memo-title">{{ memo.title }}</span>
         <div class="memo-actions">
-          <button type="button" aria-label="今日の学習メモを編集">編集</button>
-          <button type="button" class="delete-button" aria-label="今日の学習メモを削除">削除</button>
-        </div>
-      </li>
-      <li>
-        <span class="memo-title">買い物リスト</span>
-        <div class="memo-actions">
-          <button type="button" aria-label="買い物リストを編集">編集</button>
-          <button type="button" class="delete-button" aria-label="買い物リストを削除">削除</button>
-        </div>
-      </li>
-      <li>
-        <span class="memo-title">週末にやりたいこと</span>
-        <div class="memo-actions">
-          <button type="button" aria-label="週末にやりたいことを編集">編集</button>
-          <button type="button" class="delete-button" aria-label="週末にやりたいことを削除">削除</button>
+          <button
+            type="button"
+            :aria-label="memo.title + 'を編集'"
+          >
+            編集
+          </button>
+          <button
+            type="button"
+            class="delete-button"
+            :aria-label="memo.title + 'を削除'"
+            >
+              削除
+          </button>
         </div>
       </li>
     </ul>
@@ -45,5 +42,26 @@ button:hover { background: #e7eff8; }
 }
 </style>
 <script>
-export default { name: 'MemoList' }
+import { db } from '../DB/database.js'
+export default {
+  name: 'MemoList',
+  data() {
+    return {
+      memos: []
+    }
+  },
+  async mounted() {
+    await this.loadMemos()
+  },
+  methods: {
+    async loadMemos() {
+      try {
+        this.memos = await db.memos.toArray()
+        console.log(this.memos)
+      } catch (error) {
+        console.error('メモの取得に失敗しました', error)
+      }
+    }
+  }
+}
 </script>

@@ -1,8 +1,8 @@
 <template>
   <Header/>
   <main>
-    <Edit/>
-    <List/>
+    <Edit @saved="refreshMemos"/>
+    <List ref="memoList"/>
   </main>
 </template>
 
@@ -14,6 +14,11 @@ import List from './components/List.vue'
 // memo: ページは一つだが、機能ごとに表示や処理の記述を分けたいため、componentsを表示部分で3つに分割
 export default {
   name: 'App',
+  methods: {
+    async refreshMemos() {
+      await this.$refs.memoList.loadMemos()
+    }
+  },
   components: {
     Header, // memo: アプリの情報を表示
     Edit, // memo:メモの編集・登録画面

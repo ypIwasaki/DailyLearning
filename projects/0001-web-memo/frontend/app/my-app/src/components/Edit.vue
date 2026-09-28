@@ -50,6 +50,7 @@ textarea { resize: vertical; min-height: 160px; line-height: 1.7; }
 <script>
 export default {
   name: 'MemoEditor',
+  emits: ['saved'],
   data() {
     return {
       title: '',
@@ -72,7 +73,7 @@ export default {
           createdAt: now,
           updatedAt: now
         })
-
+        this.$emit('saved')
         alert('メモを保存しました')
       } catch (error) {
         console.error('メモの保存に失敗しました', error)

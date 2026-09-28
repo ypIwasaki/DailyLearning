@@ -32,7 +32,7 @@ export default {
 
 <style>
 * { box-sizing: border-box; }
-html, body { min-height: 100%; }
+html, body { height: 100%; overflow: hidden; }
 body { margin: 0; background: #f3f5f0; }
 #app {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans JP', sans-serif;
@@ -41,8 +41,8 @@ body { margin: 0; background: #f3f5f0; }
   color: #243447;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  min-height: 100dvh;
+  height: 100vh;
+  height: 100dvh;
   max-width: 1200px;
   margin: 0 auto;
   padding: 40px 24px;
@@ -51,16 +51,18 @@ body { margin: 0; background: #f3f5f0; }
 main {
   display: grid;
   grid-template-columns: minmax(0, 3fr) minmax(280px, 2fr);
-  align-items: start;
+  grid-template-rows: minmax(0, 1fr);
+  align-items: stretch;
   flex: 1;
   min-height: 0;
   gap: 24px;
   margin-top: 24px;
 }
 main > section { min-width: 0; min-height: 0; }
+main > .memo-editor { overflow-y: auto; overscroll-behavior: contain; }
 @media (max-width: 760px) {
   #app { padding: 24px 16px; }
-  main { grid-template-columns: 1fr; gap: 20px; margin-top: 24px; }
+  main { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; margin-top: 24px; }
   main > section { padding: 20px; }
 }
 input, textarea, button { font: inherit; }

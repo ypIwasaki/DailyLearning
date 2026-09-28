@@ -32,8 +32,8 @@ export default {
 
 <style>
 * { box-sizing: border-box; }
-html, body { height: 100%; overflow: hidden; }
-body { margin: 0; background: #f4f6f8; }
+html, body { min-height: 100%; }
+body { margin: 0; background: #f3f5f0; }
 #app {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans JP', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -41,29 +41,31 @@ body { margin: 0; background: #f4f6f8; }
   color: #243447;
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  height: 100dvh;
+  min-height: 100vh;
+  min-height: 100dvh;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 24px 16px;
+  padding: 40px 24px;
 }
 #app > header { flex-shrink: 0; }
 main {
   display: grid;
-  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  grid-template-columns: minmax(0, 3fr) minmax(280px, 2fr);
+  align-items: start;
   flex: 1;
   min-height: 0;
   gap: 24px;
   margin-top: 24px;
 }
-main > section { min-width: 0; min-height: 0; overflow: auto; }
-@media (max-width: 600px) {
-  #app { padding: 12px 8px; }
-  main { gap: 8px; margin-top: 12px; }
-  main > section { padding: 12px; }
+main > section { min-width: 0; min-height: 0; }
+@media (max-width: 760px) {
+  #app { padding: 24px 16px; }
+  main { grid-template-columns: 1fr; gap: 20px; margin-top: 24px; }
+  main > section { padding: 20px; }
 }
 input, textarea, button { font: inherit; }
 button { cursor: pointer; }
+button { transition: background-color .15s ease, border-color .15s ease; }
 button:focus-visible, input:focus-visible, textarea:focus-visible {
   outline: 3px solid #2878bd;
   outline-offset: 3px;

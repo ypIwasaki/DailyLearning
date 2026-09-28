@@ -5,8 +5,7 @@
       <p>思いついたことを、ひとつずつ。</p>
     </div>
     <div class="app-info">
-      <time datetime="2026-09-17">2026年9月17日</time>
-      <span>バージョン 0.1.0</span>
+      <span>あなたの小さなノート</span>
     </div>
   </header>
 </template>
@@ -20,7 +19,7 @@
   padding-bottom: 24px;
   border-bottom: 1px solid #dce3e8;
 }
-h1 { margin: 0; font-size: 28px; }
+h1 { margin: 0; font-size: 30px; letter-spacing: .04em; color: #284d37; }
 p { margin: 8px 0 0; color: #586778; }
 .app-info { display: grid; gap: 6px; color: #586778; font-size: 14px; }
 </style>

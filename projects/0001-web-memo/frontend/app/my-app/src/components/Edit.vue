@@ -1,9 +1,13 @@
 <template>
   <section class="memo-editor" aria-labelledby="editor-heading">
-    <h2 id="editor-heading">メモの編集</h2>
-    <!-- 入力と保存の処理は、Vueの学習で追加します。 -->
+    <div class="section-heading">
+      <h2 id="editor-heading">{{ selectedMemoId === null ? '新しいメモ' : 'メモの編集' }}</h2>
+      <span class="mode-badge">{{ selectedMemoId === null ? '新規作成' : '編集中' }}</span>
+    </div>
     <div class="field">
+      <label for="memo-title">タイトル</label>
       <input
+        id="memo-title"
         v-model="title"
         aria-label="タイトル"
         placeholder="例：今日の学習メモ">
@@ -27,7 +31,7 @@
         </button>
         <button
           type="button"
-          class="save-button"
+          class="new-button"
           @click="startNewMemo"
           >
             新規作成
@@ -36,23 +40,29 @@
   </section>
 </template>
 <style scoped>
-.memo-editor { padding: 24px; background: #fff; border: 1px solid #dce3e8; border-radius: 12px; }
+.memo-editor { padding: 32px; background: #fff; border: 1px solid #dfe5dc; border-radius: 18px; box-shadow: 0 8px 28px #20382908; }
+.section-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 28px; }
+.section-heading h2 { margin: 0; }
+.mode-badge { flex-shrink: 0; padding: 5px 10px; border-radius: 20px; background: #eaf2eb; color: #356348; font-size: 12px; }
 h2 { margin: 0 0 24px; font-size: 20px; }
 .field { display: grid; gap: 8px; margin-bottom: 20px; }
 label { font-weight: 600; font-size: 14px; }
 input, textarea {
   width: 100%;
   padding: 12px;
-  border: 1px solid #aab8c5;
-  border-radius: 6px;
+  border: 1px solid #cbd6ca;
+  border-radius: 8px;
   color: #243447;
   background: #fff;
 }
 input::placeholder, textarea::placeholder { color: #64748b; }
-textarea { resize: vertical; min-height: 160px; line-height: 1.7; }
-.editor-actions { display: flex; justify-content: flex-end; }
-.save-button { padding: 11px 20px; border: 1px solid #245d9b; border-radius: 6px; background: #245d9b; color: #fff; }
-.save-button:hover { background: #1c4b7e; }
+textarea { resize: vertical; min-height: 300px; line-height: 1.8; }
+.editor-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 12px; padding-top: 8px; }
+.save-button, .new-button { padding: 12px 20px; border-radius: 8px; font-weight: 600; }
+.save-button { border: 1px solid #356348; background: #356348; color: #fff; }
+.save-button:hover { background: #284d37; }
+.new-button { order: -1; border: 1px solid #cbd6ca; background: #fff; color: #356348; }
+.new-button:hover { background: #f0f5ef; }
 </style>
 <script>
 export default {

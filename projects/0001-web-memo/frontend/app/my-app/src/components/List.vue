@@ -1,10 +1,19 @@
 <template>
   <section class="memo-list" aria-labelledby="list-heading">
-    <h2 id="list-heading">保存したメモ</h2>
-    <!-- 固定のサンプルです。一覧表示・編集・削除の処理は後から追加します。 -->
+    <div class="list-heading">
+      <h2 id="list-heading">保存したメモ</h2>
+      <span class="memo-count">{{ memos.length }}件</span>
+    </div>
+    <div v-if="memos.length === 0" class="empty-state">
+      <p>メモはまだありません</p>
+      <small>タイトルと本文を入力して、最初のメモを保存しましょう。</small>
+    </div>
     <ul>
       <li v-for="memo in memos" :key="memo.id">
-        <span class="memo-title">{{ memo.title }}</span>
+        <div class="memo-summary">
+          <span class="memo-title">{{ memo.title }}</span>
+          <p class="memo-preview">{{ memo.content }}</p>
+        </div>
         <div class="memo-actions">
           <button
             type="button"
@@ -27,15 +36,24 @@
   </section>
 </template>
 <style scoped>
-.memo-list { padding: 24px; background: #fff; border: 1px solid #dce3e8; border-radius: 12px; }
+.memo-list { padding: 28px; background: #fff; border: 1px solid #dfe5dc; border-radius: 18px; box-shadow: 0 8px 28px #20382908; }
+.list-heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 20px; }
+.list-heading h2 { margin: 0; }
+.memo-count { color: #586778; font-size: 13px; background: #f0f4ee; padding: 5px 10px; border-radius: 20px; }
+.empty-state { padding: 32px 12px; text-align: center; color: #586778; }
+.empty-state p { font-weight: 600; }
+.empty-state small { line-height: 1.8; display: block; }
+.memo-summary { flex: 1 1 100%; min-width: 0; }
+.memo-title { font-weight: 600; }
+.memo-preview { margin: 8px 0 0; color: #64736a; font-size: 13px; line-height: 1.7; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; overflow-wrap: anywhere; white-space: pre-wrap; }
 h2 { margin: 0 0 16px; font-size: 20px; }
 ul { list-style: none; margin: 0; padding: 0; }
 li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 0; border-bottom: 1px solid #e6ebef; }
 li:last-child { border-bottom: 0; padding-bottom: 0; }
 .memo-title { min-width: 0; overflow-wrap: anywhere; line-height: 1.6; }
 .memo-actions { display: flex; flex-wrap: wrap; margin-left: auto; gap: 8px; }
-button { padding: 8px 12px; border: 1px solid #b6c6d6; border-radius: 6px; color: #245d9b; background: #f5f9fd; }
-button:hover { background: #e7eff8; }
+button { padding: 8px 14px; border: 1px solid #cbd6ca; border-radius: 8px; color: #356348; background: #f3f7f1; font-size: 13px; }
+button:hover { background: #e6eee3; }
 .delete-button { color: #a83232; background: #fff; border-color: #e0bbbb; }
 .delete-button:hover { background: #fff0f0; }
 @media (max-width: 380px) {
